@@ -1,0 +1,8 @@
+Plan van aanpak:
+1. input kunnen inlezen ( eerst van het NAND voorbeeld, dan voor de lange lijst)
+2. 'Stroom' kunnen zetten op de inputs
+3. Signaal kunnen doorgeven aan een volgende node
+4. signaal kunnen aannemen van een vorige en opslaan als de overige signalen nog niet binnen zijn
+5. output bepalen en samenstellen
+
+c = or(A, B); d = and(A, B); e = not(A); f = not(B); g = or(e, f); h = and(e, f); I = and(c, g); J = or(d, h)
