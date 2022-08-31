@@ -1,17 +1,19 @@
 package controllers;
 
+import models.AndGate;
 import models.Gate;
+import models.NotGate;
+import models.OrGate;
 
 import java.util.*;
 
 public class CircuitController {
     private Map<String, Gate> gates = new HashMap<>();
-    private Map<String, Gate> gatesWithInputPins = new HashMap<>();
+    private ArrayList<String> inputPins = new ArrayList<>();
     private Map<String, Gate> gatesWithOutputPins = new HashMap<>();
 
-    public CircuitController(String inputLine) {
-        List<String> lines = Arrays.asList(inputLine.split(";"));
-        for (String line : lines) {
+    public CircuitController(List<String> inputLines) {
+        for (String line : inputLines) {
             String[] parts = line.split("[=|(|,|)|;]");
             String id = "";
             String type = "";
@@ -25,21 +27,64 @@ public class CircuitController {
                     inputs.add(parts[i].trim());
                 }
             }
-            Gate g = new Gate(id, type, inputs);
+            Gate g = null;
+            switch (type) {
+                case "and":
+                    g = new AndGate(id, inputs);
+                    break;
+                case "or":
+                    g = new OrGate(id, inputs);
+                    break;
+                case "not":
+                    g = new NotGate(id, inputs);
+                    break;
+            }
             gates.put(id, g);
             for (String input : inputs) {
-                if (!input.equals(input.toLowerCase())) {
-                    gatesWithInputPins.put(id, g);
+                if (!input.equals(input.toLowerCase()) && !inputPins.contains(input)) {
+                    inputPins.add(input);
                 }
             }
             if (!id.equals(id.toLowerCase())) {
                 gatesWithOutputPins.put(id, g);
             }
         }
-        gates.forEach((gateID, gate) -> System.out.println(gate.getInputs()));
     }
 
     public Map<String, Gate> getGates() {
         return gates;
+    }
+
+    public ArrayList<String> getInputPins() {
+        return inputPins;
+    }
+
+    public void run(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            char finalI = s.charAt(i);
+            String finalJ = inputPins.get(i);
+            gates.forEach((k, v) -> {
+                if (v.getInputs().containsKey(finalJ) && finalI == '1')
+                {
+                    v.setInput(
+                            this,
+                            finalJ,
+                            true
+                    );
+                } else if (v.getInputs().containsKey(finalJ) && finalI == '0') {
+                    v.setInput(
+                            this,
+                            finalJ,
+                            false
+                    );
+                }
+            }
+            );
+        }
+        gatesWithOutputPins.forEach((k, v) -> System.out.println(k + v.getOutput()));
+    }
+
+    public void runConnectedGates(Gate sourceGate) {
+        gates.values().stream().filter(v -> v.getInputs().containsKey(sourceGate.getId())).forEach(g -> g.setInput(this, sourceGate.getId(), sourceGate.getOutput()));
     }
 }
