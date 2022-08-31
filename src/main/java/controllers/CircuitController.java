@@ -59,29 +59,22 @@ public class CircuitController {
         return inputPins;
     }
 
-    public void run(String s) {
+    public String run(String s) {
         for (int i = 0; i < s.length(); i++) {
-            char finalI = s.charAt(i);
-            String finalJ = inputPins.get(i);
+            char runChar = s.charAt(i);
+            String inputPin = inputPins.get(i);
             gates.forEach((k, v) -> {
-                if (v.getInputs().containsKey(finalJ) && finalI == '1')
-                {
-                    v.setInput(
-                            this,
-                            finalJ,
-                            true
-                    );
-                } else if (v.getInputs().containsKey(finalJ) && finalI == '0') {
-                    v.setInput(
-                            this,
-                            finalJ,
-                            false
-                    );
+                if (v.getInputs().containsKey(inputPin) && runChar == '1') {
+                    v.setInput(this, inputPin, true);
+                } else if (v.getInputs().containsKey(inputPin) && runChar == '0') {
+                    v.setInput(this, inputPin,false);
                 }
             }
             );
         }
-        gatesWithOutputPins.forEach((k, v) -> System.out.println(k + v.getOutput()));
+        final String[] result = {""};
+        gatesWithOutputPins.forEach((k, v) -> {if (v.getOutput()) {result[0] += "0";} else {result[0] += "1";}});
+        return result[0];
     }
 
     public void runConnectedGates(Gate sourceGate) {

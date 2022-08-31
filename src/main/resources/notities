@@ -6,3 +6,9 @@ Plan van aanpak:
 5. signaal kunnen aannemen van een vorige en opslaan als de overige signalen nog niet binnen zijn
 6. x als input accepteren
 7. foute input blokkeren
+
+Reflectie:
+- Was het handiger/veiliger geweest om de poorten steeds af te lopen en de poorten waarvan alle inputs bekend zijn de output bepalen, ipv zodra alle inputs bekend zijn van een poort meteen ook de volgende poort berekenen.
+- Meer Unit-tests maken had ergens wel netjes geweest, maar voelde ook als overengineering.
+- Huidige versie lijkt een vreemde volgorde te hanteren, zou ook de reden kunnen zijn dat er niet de verwacht output uitkomt.
+- Ontwerppatroon dependency injection wordt gebruikt bij het inladen van de poortenspecificatie.
