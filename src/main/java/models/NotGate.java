@@ -17,5 +17,6 @@ public class NotGate extends Gate {
                 output = !b;
             }
         }
+        if (output != null) {getReportOfCalculation();}
     }
 }

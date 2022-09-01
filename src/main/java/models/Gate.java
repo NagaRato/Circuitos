@@ -38,11 +38,28 @@ public abstract class Gate {
 
     public abstract void calculateOutput();
 
+    public void getSourceSignals(Map<String, Gate> gates) {
+
+            inputValues.keySet().forEach(
+                    (k) -> {
+                        if (gates.get(k) != null) {
+                            inputValues.replace(k,
+                                    gates.get(k).getOutput()
+                            );
+                        }
+                    }
+            );
+    }
+
     public Boolean getOutput() {
         return output;
     }
 
     public Map<String, Boolean> getInputs() {
         return inputValues;
+    }
+
+    public void getReportOfCalculation() {
+        System.out.println(id + " " + getClass().getName() + inputValues + " -> " + output);
     }
 }

@@ -34,5 +34,6 @@ public class OrGate extends Gate {
         } else if (inputsFalse == inputValues.size()) {
             output = false;
         }
+        if (output != null) {getReportOfCalculation();}
     }
 }

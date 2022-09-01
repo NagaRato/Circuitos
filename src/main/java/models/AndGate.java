@@ -34,5 +34,6 @@ public class AndGate extends Gate {
         } else if (inputsTrue == inputValues.size()) {
             output = true;
         }
+        if (output != null) {getReportOfCalculation();}
     }
 }

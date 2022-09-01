@@ -78,11 +78,10 @@ public class CircuitController {
 
     public void run(String runline) {
         runFirst(runline);
-        int runned = 0;
-        while (getGates().values().stream().anyMatch(v -> v.getOutput() == null) && runned < 2) {
+        while (getGates().values().stream().anyMatch(Gate::hasUnknownInputs)) {
+            gates.values().forEach(gate -> gate.getSourceSignals(gates));
             gates.values().forEach(Gate::calculateOutput);
-            gates.values().stream().filter(v -> v.getOutput() == null).forEach(v -> System.out.println(v.getId() + " " + v.hasUnknownInputs()));
-            runned++;
+            //gates.values().stream().filter(v -> v.getOutput() == null).forEach(v -> System.out.println(v.getId() + "-" + v.hasUnknownInputs()));
         }
     }
 }
