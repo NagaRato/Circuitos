@@ -9,7 +9,13 @@ public class NotGate extends Gate {
     }
 
     @Override
-    protected Boolean calculateOutput(Map<String, Boolean> inputValues) {
-        return !inputValues.values().stream().findAny().orElse(true);
+    public void calculateOutput() {
+        for (Boolean b : inputValues.values()) {
+            if (b == null) {
+                output = null;
+            } else {
+                output = !b;
+            }
+        }
     }
 }

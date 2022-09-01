@@ -11,4 +11,5 @@ Reflectie:
 - Was het handiger/veiliger geweest om de poorten steeds af te lopen en de poorten waarvan alle inputs bekend zijn de output bepalen, ipv zodra alle inputs bekend zijn van een poort meteen ook de volgende poort berekenen.
 - Meer Unit-tests maken had ergens wel netjes geweest, maar voelde ook als overengineering.
 - Huidige versie lijkt een vreemde volgorde te hanteren, zou ook de reden kunnen zijn dat er niet de verwacht output uitkomt.
+- Programma waarschuwt nog niet voor foute input.
 - Ontwerppatroon dependency injection wordt gebruikt bij het inladen van de poortenspecificatie.

@@ -59,25 +59,30 @@ public class CircuitController {
         return inputPins;
     }
 
-    public String run(String s) {
+    public void runFirst(String s) {
         for (int i = 0; i < s.length(); i++) {
             char runChar = s.charAt(i);
             String inputPin = inputPins.get(i);
             gates.forEach((k, v) -> {
-                if (v.getInputs().containsKey(inputPin) && runChar == '1') {
-                    v.setInput(this, inputPin, true);
-                } else if (v.getInputs().containsKey(inputPin) && runChar == '0') {
-                    v.setInput(this, inputPin,false);
+                if (v.getInputs().containsKey(inputPin)) {
+                    v.setInput(this, inputPin, runChar == '1');
                 }
             }
             );
         }
-        final String[] result = {""};
-        gatesWithOutputPins.forEach((k, v) -> {if (v.getOutput()) {result[0] += "0";} else {result[0] += "1";}});
-        return result[0];
     }
 
-    public void runConnectedGates(Gate sourceGate) {
-        gates.values().stream().filter(v -> v.getInputs().containsKey(sourceGate.getId())).forEach(g -> g.setInput(this, sourceGate.getId(), sourceGate.getOutput()));
+    public String getResult() {
+        return "";
+    }
+
+    public void run(String runline) {
+        runFirst(runline);
+        int runned = 0;
+        while (getGates().values().stream().anyMatch(v -> v.getOutput() == null) && runned < 2) {
+            gates.values().forEach(Gate::calculateOutput);
+            gates.values().stream().filter(v -> v.getOutput() == null).forEach(v -> System.out.println(v.getId() + " " + v.hasUnknownInputs()));
+            runned++;
+        }
     }
 }

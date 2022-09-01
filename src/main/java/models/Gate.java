@@ -6,8 +6,8 @@ import java.util.*;
 
 public abstract class Gate {
     private final String id;
-    private Map<String, Boolean> inputValues = new HashMap<>();
-    private Boolean output = null;
+    protected Map<String, Boolean> inputValues = new HashMap<>();
+    protected Boolean output = null;
 
     public Gate(String id, ArrayList<String> inputs) {
         this.id = id;
@@ -18,22 +18,31 @@ public abstract class Gate {
         return id;
     }
 
-    public Map<String, Boolean> getInputs() {
-        return inputValues;
+    public boolean hasUnknownInputs() {
+        boolean hasUnknown = false;
+        for (Boolean b : inputValues.values()) {
+            if (b == null) {
+                hasUnknown = true;
+            }
+        }
+        return hasUnknown;
     }
 
     public void setInput(CircuitController controller, String inputwire, boolean value) {
         inputValues.replace(inputwire, value);
         if (inputValues.values().stream().filter(g -> g != null).count() == inputValues.size()) {
-            output = calculateOutput(inputValues);
-            controller.runConnectedGates(this);
+            calculateOutput();
             System.out.println(id + " " + getClass().getName() + "(" + inputValues + ")" + " -> " + output);
         }
     }
 
-    protected abstract Boolean calculateOutput(Map<String, Boolean> inputValues);
+    public abstract void calculateOutput();
 
     public Boolean getOutput() {
         return output;
+    }
+
+    public Map<String, Boolean> getInputs() {
+        return inputValues;
     }
 }

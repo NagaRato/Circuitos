@@ -9,7 +9,30 @@ public class AndGate extends Gate {
         super(id, inputs);
     }
 
-    protected Boolean calculateOutput(Map<String, Boolean> inputValues) {
-        return inputValues.values().stream().filter(v -> v == true).count() == inputValues.size();
+    public void calculateOutput() {
+        int inputsNull = 0;
+        int inputsTrue = 0;
+        int inputsFalse = 0;
+        for (Boolean b : inputValues.values()) {
+            if (b == null) {
+                inputsNull++;
+            }
+        }
+        for (Boolean b : inputValues.values()) {
+            if (b != null) {
+                if (b) {
+                    inputsTrue++;
+                } else {
+                    inputsFalse++;
+                }
+            }
+        }
+        if (inputsNull > 0) {
+            output = null;
+        } else if (inputsFalse > 0) {
+            output = false;
+        } else if (inputsTrue == inputValues.size()) {
+            output = true;
+        }
     }
 }

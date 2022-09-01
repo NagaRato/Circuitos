@@ -27,8 +27,8 @@ public class TestInputConverter {
         lines.add("I = and(c, g)");
         lines.add("J = or(d, h)");
         CircuitController circuitController = new CircuitController(lines);
-        String result = circuitController.run("10");
+        circuitController.run("01");
 
-        assert result.equals("10");
+        assert circuitController.getResult().equals("10");
     }
 }
